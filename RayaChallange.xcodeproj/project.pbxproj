@@ -15,6 +15,8 @@
 		2E73348A23D4522000728CEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E73348823D4522000728CEC /* LaunchScreen.storyboard */; };
 		2E73349523D4522000728CEC /* RayaChallangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349423D4522000728CEC /* RayaChallangeTests.swift */; };
 		2E7334A023D4522000728CEC /* RayaChallangeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */; };
+		2E7334AE23D50E8300728CEC /* SearchShows.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334AD23D50E8300728CEC /* SearchShows.swift */; };
+		2E7334B023D5135300728CEC /* Episodes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334AF23D5135300728CEC /* Episodes.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +51,8 @@
 		2E73349B23D4522000728CEC /* RayaChallangeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RayaChallangeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayaChallangeUITests.swift; sourceTree = "<group>"; };
 		2E7334A123D4522000728CEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		2E7334AD23D50E8300728CEC /* SearchShows.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchShows.swift; sourceTree = "<group>"; };
+		2E7334AF23D5135300728CEC /* Episodes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episodes.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -106,6 +110,8 @@
 				2E73348823D4522000728CEC /* LaunchScreen.storyboard */,
 				2E73348B23D4522000728CEC /* Info.plist */,
 				2E73348523D4522000728CEC /* Preview Content */,
+				2E7334AD23D50E8300728CEC /* SearchShows.swift */,
+				2E7334AF23D5135300728CEC /* Episodes.swift */,
 			);
 			path = RayaChallange;
 			sourceTree = "<group>";
@@ -268,7 +274,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				2E73347E23D4521C00728CEC /* AppDelegate.swift in Sources */,
+				2E7334B023D5135300728CEC /* Episodes.swift in Sources */,
 				2E73348023D4521C00728CEC /* SceneDelegate.swift in Sources */,
+				2E7334AE23D50E8300728CEC /* SearchShows.swift in Sources */,
 				2E73348223D4521C00728CEC /* ContentView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

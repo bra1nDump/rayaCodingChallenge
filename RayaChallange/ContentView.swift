@@ -1,11 +1,3 @@
-//
-//  ContentView.swift
-//  RayaChallange
-//
-//  Created by Konstantin Dubovitskiy on 1/19/20.
-//  Copyright © 2020 Kirill Dubovitskiy. All rights reserved.
-//
-
 import SwiftUI
 
 struct ContentView: View {
