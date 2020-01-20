@@ -110,7 +110,7 @@ enum Data {
     typealias SearchShows = [SearchShow]
     
     // MARK: - Episode
-    struct Episode: Codable, Hashable {
+    struct Episode: Codable, Hashable, Identifiable {
         static func == (lhs: Data.Episode, rhs: Data.Episode) -> Bool {
             lhs.id == rhs.id
         }

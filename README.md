@@ -24,8 +24,9 @@
 - [x] Shows search
 - [x] Seasons
 - [x] Episode
-- [x] + ~4 hours mark 
-- [ ] Navigation
+- [x] + ~4 hours 
+- [x] Navigation
+- [x] + ~2 hours
 
 ## Http client 
 
@@ -53,6 +54,7 @@
 ## Extra credit
 
 - [ ] Add escaping example to show that might affect where variable is allocated?
+- [ ] Add UIKit component
 
 ## Look into
 
@@ -66,3 +68,4 @@
 - Collisions of derived type from json & SwiftUI (Image)
 - When conditionally return different types from var body: some View cannot return different types. Type erasure fails here. Need to wrap in AnyView
 - When having more than one statement in a closure the compiler is having a really hard time. For example i had ForEach(range: ... ) { (index: Int) in let season = seasons[index]; return .. }. This it wasnt able to infer with an error - complex closure cannot infer type. Best troubleshooting in this case I found so far is to start annotating types of parameters (which is what the compiler wanted me to do in the first place)
+- Navigation took a little more time then expected. This happened because I have tryied a couple of different ways to handle the state of the application. Right now I went with not a very scalable (not very teststable) solution.

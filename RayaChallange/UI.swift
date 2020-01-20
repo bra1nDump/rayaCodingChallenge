@@ -2,21 +2,24 @@ import SwiftUI
 import Combine
 
 // MARK: Shows
+class ShowsSearch: ObservableObject {
+    @Published var query = ""
+    @Published var shows = MockData.searchShowsSample
+}
+
 struct SearchShowsView: View {
-    let shows = MockData.searchShowsSample
-    
-    @State var query = ""
+    @ObservedObject var searchShows = ShowsSearch()
     
     var body: some View {
         VStack {
             HStack {
-                TextField.init("Search", text: $query)
-                Button.init("Clear") {
-                    self.query = ""
-                }
+                TextField.init("Search", text: $searchShows.query)
+                Button.init("Clear", action: {
+                    self.searchShows.query = ""
+                })
             }
             
-            List.init(shows, id: \.show.id, rowContent: ShowRowView.init)
+            List.init(searchShows.shows, id: \.show.id, rowContent: ShowRowView.init)
         }
     }
 }
@@ -25,27 +28,40 @@ struct ShowRowView: View {
     let show: Data.SearchShow
     
     var body: some View {
-        Text(show.show.name)
+        NavigationLink(show.show.name, destination: SeasonsView(showId: show.show.id))
     }
 }
 
 // MARK: Seasons
 struct SeasonsView: View {
-    let seasons = MockData.episodesSample.group { $0.season == $1.season }
+    let showId: Int
+    
+    var seasons: [Data.Episodes] {
+        MockData.episodesSample.group { $0.season == $1.season }
+    }
+    
+    @State var presentedEpisode: Data.Episode?
     
     var body: some View {
         List {
             ForEach.init((0..<seasons.count)) { (index: Int) in
                 Section(header: Text("\(self.seasons[index].first!.season)")) {
-                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons[index], id: \.id, content: EpisodeRowView.init)
+                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons[index], id: \.id) {
+                        (episode: Data.Episode) in
+                        EpisodeRowView(episode: episode) {
+                            self.presentedEpisode = episode
+                        }
+                    }
                 }
             }
         }
+        .popover(item: $presentedEpisode, content: EpisodeView.init)
     }
 }
 
 struct EpisodeRowView: View {
     let episode: Data.Episode
+    let onSelect: () -> Void
     
     var body: some View {
         HStack {
@@ -58,9 +74,7 @@ struct EpisodeRowView: View {
                 Text("Episode \(episode.number)")
                 Text(episode.summary)
             }
-        }.onTapGesture {
-            print("mutate state above to go to detail")
-        }
+        }.onTapGesture(perform: onSelect)
     }
 }
 
@@ -69,21 +83,21 @@ struct EpisodeView: View {
     let episode: Data.Episode
     
     var body: some View {
-        ScrollView {
+        VStack {
             UrlImage(url: episode.image.original)
             Text("Season \(episode.season) Episode \(episode.number)")
             Text(episode.name)
-            Text(episode.summary)
+            ScrollView {
+                Text(episode.summary)
+            }
         }
     }
 }
 
 struct AppView: View {
-    
     var body: some View {
         NavigationView {
-            //SearchShowsView()
-            SeasonsView()
+            SearchShowsView()
             .navigationBarTitle("Show Search")
         }
     }
@@ -93,7 +107,7 @@ struct SearchShowsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             SearchShowsView()
-            SeasonsView()
+            SeasonsView(showId: 1)
             EpisodeView(episode: MockData.episodesSample.first!)
         }
     }
