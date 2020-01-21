@@ -22,10 +22,10 @@
 ## Unit tests
 
 - [x] TV maze api response parsing
-- [ ] Array `group(by:)`
-- [ ] TvMaze
-  - [ ] search
-  - [ ] show
+- [ ] Array `group(by:)` (caught bug with single element in group `XCTAssertEqual failed: ("[[1, 1], [3, 3]]") is not equal to ("[[1, 1], [4], [3, 3]]")`)
+- [x] TvMaze
+  - [x] search
+  - [x] show
 
 ## UI
 

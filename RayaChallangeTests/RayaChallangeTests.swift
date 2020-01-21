@@ -11,4 +11,32 @@ class RayaChallangeTests: XCTestCase {
         let episodes = try! JSONDecoder().decode(Data.Episodes.self, from: MockData.episodesSampleJsonData)
         XCTAssert(episodes.first!.id == 1)
     }
+    
+    func testArrayGroupBy() {
+        XCTAssertEqual([1, 1, 4, 3, 3].group(by: ==), [[1, 1], [4], [3, 3]])
+    }
+    
+    func testSearch() {
+        let expectation = XCTestExpectation()
+        let _ = TvMaze.search(query: "girls")
+            .sink { (shows) in
+                if shows.isNotEmpty {
+                    expectation.fulfill()
+                } else {
+                    fatalError("Show search result for girs should not be emtpy")
+                }
+            }
+    }
+    
+    func testEpisodes() {
+        let expectation = XCTestExpectation()
+        let _ = TvMaze.episodes(showId: 1)
+            .sink { (episodes) in
+                if episodes.isNotEmpty {
+                    expectation.fulfill()
+                } else {
+                    fatalError("Show search result for girs should not be emtpy")
+                }
+            }
+    }
 }
