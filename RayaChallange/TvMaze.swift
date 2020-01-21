@@ -7,7 +7,7 @@ extension URLSession {
         .dataTaskPublisher(for: URL(string: url)!)
         .map { try? JSONDecoder().decode(type, from: $0.0)}
         .replaceError(with: nil)
-        .subscribe(on: DispatchQueue.main)
+        .receive(on: DispatchQueue.main)
         .eraseToAnyPublisher()
     }
 }

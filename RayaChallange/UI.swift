@@ -4,7 +4,24 @@ import Combine
 // MARK: Shows
 class ShowsSearch: ObservableObject {
     @Published var query = ""
-    @Published var shows = MockData.searchShowsSample
+    @Published var searchShows = Data.SearchShows()
+    
+    var cancelQuery: AnyCancellable?
+    var cancelSeachShows: AnyCancellable?
+    
+    init() {
+        let halfSecond = DispatchQueue.SchedulerTimeType.Stride.seconds(0.5)
+        cancelQuery = $query
+            .debounce(for: halfSecond, scheduler: DispatchQueue.main)
+            .sink { (query) in
+                self.cancelSeachShows =
+                    TvMaze
+                    .search(query: query)
+                    .sink { (result) in
+                        self.searchShows = result
+                    }
+            }
+    }
 }
 
 struct SearchShowsView: View {
@@ -19,7 +36,7 @@ struct SearchShowsView: View {
                 })
             }
             
-            List.init(searchShows.shows, id: \.show.id, rowContent: ShowRowView.init)
+            List.init(searchShows.searchShows, id: \.show.id, rowContent: ShowRowView.init)
         }
     }
 }
@@ -113,7 +130,7 @@ struct SearchShowsView_Previews: PreviewProvider {
     }
 }
 
-// MARK: helpers
+// MARK: SwiftUI UrlImage
 class UrlImageSource: ObservableObject {
     @Published var uiImage: UIImage?
     private var stream: AnyCancellable?
