@@ -164,6 +164,7 @@ extension Array {
             } else {
                 groups.append(Array(currentGroup))
                 currentGroup.removeAll()
+                currentGroup.append(current)
             }
         }
         
