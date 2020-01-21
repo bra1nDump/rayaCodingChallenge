@@ -24,6 +24,8 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [x] TvMaze
   - [x] search
   - [x] show
+  
+## Timer start
 
 ## Data
 
@@ -52,9 +54,12 @@ The plan can be created but will always be changing. Initially I have used a goo
 
 - [x] Create `SearchShows` that would manage search screen state
 - [x] + ~5 hours
-- [ ] Create `Seasons` that would manage show detail screen
+- [x] Create `Seasons` that would manage show detail screen
+- [x] + ~0 hours
 
-## Polish
+## Timer stop (base implemented): 16 hours
+
+## Polish (the fun part)
 
 - [ ] Data <-> view dependencies setup efficiently
 - [ ] `List`, `ForEach` and friends reuse views efficiently
@@ -72,6 +77,7 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [ ] Integration tests
 - [ ] UI tests (this doest make much sense for such a small project, but just to familarize with the process)
 - [ ] Create custom subscriber for better understanding of `Combine`
+- [ ] Add psedo code timer that will track the time I spent on this assignment
 
 ### Things for my `Prelude`
 
@@ -103,3 +109,22 @@ The plan can be created but will always be changing. Initially I have used a goo
       ```
       getting this exception: `Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)`. TODO: get to the bottom of this, why is this happening? Debugger shows halfSecond.magnitude = 0 ? strange. This ok the docs keep mentioning that in case of `ImmediateScheduler` shit is meaningless.. but `Scheduler` proptocol and implementations seem under documented. 
       Veery interesting. I was expecting `DispatchQueue` to conform to `Scheduler` protocol, I was just confused by seing it in the `Combine` framework. I though its a different one. So initially I found a function to create time using the `ImmediateScheduler`, which obviously wouldnt work with `DispatchQueue` as the scheduler. Of course just having a closer look at the `debounce` signature `debounce<S>(for dueTime: S.SchedulerTimeType.Stride, scheduler: S, ...` we can see the generic parameter `S`, which in my first attempt was trying to be both `DispatchQueue and ImmediateScheduler`. What I learned - again, instead of just trying a bunch of things we need to look at what the compiler tells us! By the way, what does it tell us? Lets find out! This is the compilation error: `Cannot invoke 'debounce' with an argument list of type '(for: ImmediateScheduler.SchedulerTimeType.Stride, scheduler: DispatchQueue)'` . I personally think it sucks. It basically juse says that something is wrong with the type of the parameters. What is interresting on what stage of the type inference does it break and if xcode just dummed down the error description provided to the end user.
+- Tryied starting out simle again
+
+```
+@State var seasons: [Data.Episodes] = []
+private var cancelEpisodesTask: AnyCancellable
+
+init(showId: Int) {
+    cancelEpisodesTask =
+        TvMaze.episodes(showId: showId)
+            .sink(receiveValue: { (episodes) in
+                self.seasons = episodes.group(by: { $0.season == $1.season })
+            })
+}
+
+----
+error: Escaping closure captures mutating 'self' parameter
+```
+
+Need to figure out the exact limitations on structs so I avoid the approach of just "pocking" around. For now will go with what I already know which is create a sublcass of `ObservableObject` like for show search screen.

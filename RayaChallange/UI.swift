@@ -50,20 +50,33 @@ struct ShowRowView: View {
 }
 
 // MARK: Seasons
-struct SeasonsView: View {
-    let showId: Int
+class Seasons: ObservableObject {
+    @Published var seasons: [Data.Episodes] = []
+    private var cancelEpisodesTask: AnyCancellable?
     
-    var seasons: [Data.Episodes] {
-        MockData.episodesSample.group { $0.season == $1.season }
+    init(showId: Int) {
+        cancelEpisodesTask =
+            TvMaze
+            .episodes(showId: showId)
+            .sink(receiveValue: { (episodes) in
+                self.seasons = episodes.group(by: { $0.season == $1.season })
+            })
     }
-    
+}
+
+struct SeasonsView: View {
+    @ObservedObject var seasons: Seasons
     @State var presentedEpisode: Data.Episode?
+    
+    init(showId: Int) {
+        seasons = Seasons(showId: showId)
+    }
     
     var body: some View {
         List {
-            ForEach.init((0..<seasons.count)) { (index: Int) in
-                Section(header: Text("\(self.seasons[index].first!.season)")) {
-                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons[index], id: \.id) {
+            ForEach.init((0..<seasons.seasons.count)) { (index: Int) in
+                Section(header: Text("\(self.seasons.seasons[index].first!.season)")) {
+                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons.seasons[index], id: \.id) {
                         (episode: Data.Episode) in
                         EpisodeRowView(episode: episode) {
                             self.presentedEpisode = episode
