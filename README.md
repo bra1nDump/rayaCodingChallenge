@@ -69,9 +69,9 @@ The plan can be created but will always be changing. Initially I have used a goo
     - [ ] Remove <p> from the episode description
         - [x] option 1 - filter <p> </p> tags out - not scalable, what if the api returns other html attributes? What if we want to display multiple paragraphs?
         - [ ] option 2 - create `UIViewRepresentable` that will put `UIKit.UITextView` into the hirarhy (also cool excersize to interop with UIKit)
-    - [ ] Change default sizes of the title
-    - [ ] Add rounded edges to the image (can be done on the `UrlImage` level)
-    - [ ] Align left episode cell content
+    - [x] Change default sizes of the title
+    - [x] Add rounded edges to the image (can be done on the `UrlImage` level)
+    - [x] Align left episode cell content
     - [ ] Add arrow to episode cell
   -  [ ] Episode detail 
     - [ ] "The views on this View Controller should be in a UIScrollView so that they scroll on devices with smaller screens." This was the original implementation. Later I made only the description scrollable, because I thought the scroll on the entire screen could intefeer with the dismissal of the screen.
@@ -80,28 +80,27 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [x] Looks like rn api requests are created for each show  episodes 
 - [ ] Data <-> view dependencies setup efficiently (I guess this is handled by the `SwiftUI`, but could be a good excersize to verify)
 - [ ] `List`, `ForEach` and friends reuse views efficiently
-- [ ] Separate code from the UI.swift to appropriate files
-- [ ] Remove mock data with #if 
+- [x] Restructure project
+- [x] Remove mock data with #if 
+- [x] Reduce the number of view subclasses
+- [x] Move model to TvMaze, since rn its is hightly coupled with that API with no intention to support multple sources
+- [x] Make sure things are swifty
 - [ ] Make sure application lifecycle works well (new to scenes)
-- [ ] Localization
 - [ ] Remove arbitrary loads (allow only one domain)
-- [ ] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
-- [ ] Make sure queries with special symbols get handled correctly (good place for unit test?)
+- [x] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
+- [x] Make sure queries with special symbols get handled correctly (good place for unit test?)
 - [ ] Layout is not flexible rn (only tested on one device)
 
 ## Extra credit
 
-- [ ] Add escaping example to show that might affect where variable is allocated?
 - [ ] Add `UIKit` component
-- [ ] Integration tests
-- [ ] UI tests (this doest make much sense for such a small project, but just to familarize with the process)
+- [ ] Integration tests (this doest make much sense for such a small project, but just to familarize with the process)
 - [ ] Create custom subscriber for better understanding of `Combine`
-- [ ] Add psedo code timer that will track the time I spent on this assignment
 - [ ] Add documentation strings to the generally useful elements
 
 ### Things for my `Prelude`
 
-- [ ] Extend `XCTest` framework with something to test streams in `Combine`
+- [ ] Extend `XCTest` framework with something to test streams in `Combine` to avoid creating mu
 - [ ] Create helper `FutureView` | `FutureBuilder` for building 
 
 ## Look into
