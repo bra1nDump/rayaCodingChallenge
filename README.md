@@ -66,11 +66,21 @@ The plan can be created but will always be changing. Initially I have used a goo
   - [ ] "Use a custom cell class to match the layout in the included sketch file". 
     - [x] Align the top of the image with that
     - [ ] Truncate the description size if too big (max lines property or something) (update: doesnt look like anything in the docs mention that)
-  - [ ] "The views on this View Controller should be in a UIScrollView so that they scroll on devices with smaller screens." This was the original implementation. Later I made only the description scrollable, because I thought the scroll on the entire screen could intefeer with the dismissal of the screen.
+    - [ ] Remove <p> from the episode description
+        - [x] option 1 - filter <p> </p> tags out - not scalable, what if the api returns other html attributes? What if we want to display multiple paragraphs?
+        - [ ] option 2 - create `UIViewRepresentable` that will put `UIKit.UITextView` into the hirarhy (also cool excersize to interop with UIKit)
+    - [ ] Change default sizes of the title
+    - [ ] Add rounded edges to the image (can be done on the `UrlImage` level)
+    - [ ] Align left episode cell content
+    - [ ] Add arrow to episode cell
+  -  [ ] Episode detail 
+    - [ ] "The views on this View Controller should be in a UIScrollView so that they scroll on devices with smaller screens." This was the original implementation. Later I made only the description scrollable, because I thought the scroll on the entire screen could intefeer with the dismissal of the screen.
+    - [ ] Gradient on the background?
 - [x] Make sure parsing doesnt fail remove fields that are not needed from the data model, read tvmaze api
 - [x] Looks like rn api requests are created for each show  episodes 
 - [ ] Data <-> view dependencies setup efficiently (I guess this is handled by the `SwiftUI`, but could be a good excersize to verify)
 - [ ] `List`, `ForEach` and friends reuse views efficiently
+- [ ] Separate code from the UI.swift to appropriate files
 - [ ] Remove mock data with #if 
 - [ ] Make sure application lifecycle works well (new to scenes)
 - [ ] Localization
@@ -87,6 +97,7 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [ ] UI tests (this doest make much sense for such a small project, but just to familarize with the process)
 - [ ] Create custom subscriber for better understanding of `Combine`
 - [ ] Add psedo code timer that will track the time I spent on this assignment
+- [ ] Add documentation strings to the generally useful elements
 
 ### Things for my `Prelude`
 
@@ -187,3 +198,17 @@ ForEach<Range<Int>, Int, Section<Text, ForEach<Array<Episode>, Int, EpisodeRowVi
 ```
 
 This error didn't show itself before because the episodes would be loaded before the user even went to the show detail screen. So the view wasnt getting rendered (even tho the data was still loading asynchronously). Will fix as suggested by using a keypath to season number to identify elements
+
+- When creating `HtmlText: UIViewRepresentable` struct to render html strings within `SwiftUI` I didnt implement the update function for the text. I believe this might potentially cause trouble when reusing the view in the `List`. My assumption is that it will not work, but it really depends on how the library handles those updates. And if it does work, I will be alarmed, because that would mean that even if the 'cells' do ge reused the `UITextView`s that back `HtmlText` in every episode cell dont get reused. Lets find out!
+
+- Attempt to use attributed string in `UITextView` has failed. I have attempted to construct the attributes using some copy paste code for swift 4 from stackoverflow which errors out with this: 
+
+```
+=== AttributeGraph: cycle detected through attribute 42 ===
+=== AttributeGraph: cycle detected through attribute 45 ===
+=== AttributeGraph: cycle detected through attribute 45 ===
+=== AttributeGraph: cycle detected through attribute 56 ===
+=== AttributeGraph: cycle detected through attribute 113 ===
+=== AttributeGraph: cycle detected through attribute 204 ===
+....
+```

@@ -45,7 +45,7 @@ struct ShowRowView: View {
     let show: Model.ShowSearchMatch
     
     var body: some View {
-        NavigationLink(show.show.name, destination: SeasonsView(showId: show.show.id))
+        NavigationLink(show.show.name, destination: SeasonsView(show: show.show))
     }
 }
 
@@ -70,19 +70,20 @@ class Seasons: ObservableObject {
 }
 
 struct SeasonsView: View {
+    let showName: String
     @ObservedObject var seasons: Seasons
     @State var presentedEpisode: Model.Episode?
     
-    init(showId: Int) {
-        seasons = Seasons(showId: showId)
+    init(show: Model.Show) {
+        showName = show.name
+        seasons = Seasons(showId: show.id)
     }
     
     var body: some View {
         List {
             ForEach.init(seasons.seasons, id: \.first?.season) { (episodes: Model.Episodes) in
-                Section(header: Text("\(episodes.first!.season)")) {
-                    ForEach<[Model.Episode], Int, EpisodeRowView>(episodes, id: \.id) {
-                        (episode: Model.Episode) in
+                Section(header: Text("Season \(episodes.first!.season)").font(.largeTitle)) {
+                    ForEach<[Model.Episode], Int, EpisodeRowView>(episodes, id: \.id) { (episode: Model.Episode) in
                         EpisodeRowView(episode: episode) {
                             self.presentedEpisode = episode
                         }
@@ -90,8 +91,17 @@ struct SeasonsView: View {
                 }
             }
         }
+        .navigationBarTitle(showName)
         .onAppear(perform: seasons.load)
         .popover(item: $presentedEpisode, content: EpisodeView.init)
+    }
+}
+
+extension String {
+    /// - Warning: This will not verify if the string has the outer tags. A better version of this should return `Substring?`
+    ///     and fail if the string is not in the form of <tag>...</tag>. Also this will fail for any tags that are parametrized.
+    func dropOuterHtmlTag(_ tag: String) -> Substring {
+        dropFirst(tag.count + 2).dropLast(tag.count + 3)
     }
 }
 
@@ -102,14 +112,14 @@ struct EpisodeRowView: View {
     var body: some View {
         HStack(alignment: .top) {
             UrlImage(url: episode.image.medium)
-                .frame(width: 50, height: 50)
-                .clipped()
+                .frame(width: 100, height: 100)
             
-            VStack {
-                Text(episode.name)
-                Text("Episode \(episode.number)")
-                Text(episode.summary)
+            VStack(alignment: .leading, spacing: 5) {
+                Text(episode.name).font(.headline)
+                Text("Episode \(episode.number)").font(.subheadline)
+                Text(episode.summary.dropOuterHtmlTag("p"))
             }
+            
         }.onTapGesture(perform: onSelect)
     }
 }
@@ -119,12 +129,21 @@ struct EpisodeView: View {
     let episode: Model.Episode
     
     var body: some View {
-        VStack {
+        VStack(spacing: 10) {
             UrlImage(url: episode.image.original)
+                .padding()
             Text("Season \(episode.season) Episode \(episode.number)")
+                .font(.largeTitle)
             Text(episode.name)
+                .font(.title)
+                .fontWeight(.light)
+                .multilineTextAlignment(.center)
+                .padding()
             ScrollView {
-                Text(episode.summary)
+                Text(episode.summary.dropOuterHtmlTag("p"))
+                    .fontWeight(.light)
+                    .multilineTextAlignment(.center)
+                    .padding()
             }
         }
     }
@@ -143,7 +162,7 @@ struct SearchShowsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
             SearchShowsView()
-            SeasonsView(showId: 1)
+            SeasonsView(show: MockData.searchShowsSample.first!.show)
             EpisodeView(episode: MockData.episodesSample.first!)
         }
     }
@@ -176,7 +195,12 @@ struct UrlImage: View {
     
     var body: some View {
         if let uiImage = urlImageSource.uiImage {
-            return AnyView(Image.init(uiImage: uiImage))
+            return AnyView(
+                Image.init(uiImage: uiImage)
+                    .resizable()
+                    .scaledToFit()
+                    .clipShape(RoundedRectangle(cornerRadius: 10))
+            )
         } else {
             return AnyView(Text(""))
         }

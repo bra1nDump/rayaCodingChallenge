@@ -51,4 +51,12 @@ class RayaChallangeTests: XCTestCase {
                 }
             }
     }
+    
+    func testDropOuterHtmlTagWorks() {
+        XCTAssertEqual("<p>Hello</p>".dropOuterHtmlTag("p"), "Hello")
+    }
+    
+    func testDropOuterHtmlTagWorksOnEmptyString() {
+        XCTAssertEqual("".dropOuterHtmlTag("p"), "")
+    }
 }
