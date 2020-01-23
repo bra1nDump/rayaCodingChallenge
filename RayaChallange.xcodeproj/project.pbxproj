@@ -15,7 +15,7 @@
 		2E73348A23D4522000728CEC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 2E73348823D4522000728CEC /* LaunchScreen.storyboard */; };
 		2E73349523D4522000728CEC /* RayaChallangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349423D4522000728CEC /* RayaChallangeTests.swift */; };
 		2E7334A023D4522000728CEC /* RayaChallangeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */; };
-		2E7334AE23D50E8300728CEC /* Data.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334AD23D50E8300728CEC /* Data.swift */; };
+		2E7334AE23D50E8300728CEC /* Model.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334AD23D50E8300728CEC /* Model.swift */; };
 		2E7334B323D53AE000728CEC /* MockData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334B223D53AE000728CEC /* MockData.swift */; };
 		2EEA3BCC23D656AB00EA2593 /* TvMaze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA3BCB23D656AA00EA2593 /* TvMaze.swift */; };
 /* End PBXBuildFile section */
@@ -52,7 +52,7 @@
 		2E73349B23D4522000728CEC /* RayaChallangeUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RayaChallangeUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayaChallangeUITests.swift; sourceTree = "<group>"; };
 		2E7334A123D4522000728CEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		2E7334AD23D50E8300728CEC /* Data.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data.swift; sourceTree = "<group>"; };
+		2E7334AD23D50E8300728CEC /* Model.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Model.swift; sourceTree = "<group>"; };
 		2E7334B223D53AE000728CEC /* MockData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockData.swift; sourceTree = "<group>"; };
 		2EEA3BCA23D55B2000EA2593 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2EEA3BCB23D656AA00EA2593 /* TvMaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvMaze.swift; sourceTree = "<group>"; };
@@ -111,7 +111,7 @@
 				2E73348823D4522000728CEC /* LaunchScreen.storyboard */,
 				2E73348B23D4522000728CEC /* Info.plist */,
 				2E7334B123D53A6800728CEC /* App */,
-				2E7334AD23D50E8300728CEC /* Data.swift */,
+				2E7334AD23D50E8300728CEC /* Model.swift */,
 				2E7334B223D53AE000728CEC /* MockData.swift */,
 				2E73348123D4521C00728CEC /* UI.swift */,
 				2EEA3BCB23D656AA00EA2593 /* TvMaze.swift */,
@@ -289,7 +289,7 @@
 				2E73347E23D4521C00728CEC /* AppDelegate.swift in Sources */,
 				2E73348023D4521C00728CEC /* SceneDelegate.swift in Sources */,
 				2EEA3BCC23D656AB00EA2593 /* TvMaze.swift in Sources */,
-				2E7334AE23D50E8300728CEC /* Data.swift in Sources */,
+				2E7334AE23D50E8300728CEC /* Model.swift in Sources */,
 				2E73348223D4521C00728CEC /* UI.swift in Sources */,
 				2E7334B323D53AE000728CEC /* MockData.swift in Sources */,
 			);

@@ -20,7 +20,7 @@ The plan can be created but will always be changing. Initially I have used a goo
 ## Unit tests
 
 - [x] TV maze api response parsing
-- [ ] Array `group(by:)` (caught bug with single element in group `XCTAssertEqual failed: ("[[1, 1], [3, 3]]") is not equal to ("[[1, 1], [4], [3, 3]]")`)
+- [x] Array `group(by:)` (caught bug with single element in group `XCTAssertEqual failed: ("[[1, 1], [3, 3]]") is not equal to ("[[1, 1], [4], [3, 3]]")`)
 - [x] TvMaze
   - [x] search
   - [x] show
@@ -61,14 +61,23 @@ The plan can be created but will always be changing. Initially I have used a goo
 
 ## Polish (the fun part)
 
-- [ ] Data <-> view dependencies setup efficiently
+- [x] Reread the initial assignment, look for anything more urgent then the following tasks // IMPORTANT
+  - [x] "Use a regular UITableViewCell for the results; there is no need for a custom cell class" - unable to meet using SwiftUI
+  - [ ] "Use a custom cell class to match the layout in the included sketch file". 
+    - [x] Align the top of the image with that
+    - [ ] Truncate the description size if too big (max lines property or something) (update: doesnt look like anything in the docs mention that)
+  - [ ] "The views on this View Controller should be in a UIScrollView so that they scroll on devices with smaller screens." This was the original implementation. Later I made only the description scrollable, because I thought the scroll on the entire screen could intefeer with the dismissal of the screen.
+- [x] Make sure parsing doesnt fail remove fields that are not needed from the data model, read tvmaze api
+- [x] Looks like rn api requests are created for each show  episodes 
+- [ ] Data <-> view dependencies setup efficiently (I guess this is handled by the `SwiftUI`, but could be a good excersize to verify)
 - [ ] `List`, `ForEach` and friends reuse views efficiently
 - [ ] Remove mock data with #if 
-- [ ] Make sure application lifecycle wors well (new to scenes)
+- [ ] Make sure application lifecycle works well (new to scenes)
 - [ ] Localization
 - [ ] Remove arbitrary loads (allow only one domain)
 - [ ] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
 - [ ] Make sure queries with special symbols get handled correctly (good place for unit test?)
+- [ ] Layout is not flexible rn (only tested on one device)
 
 ## Extra credit
 
@@ -103,12 +112,13 @@ The plan can be created but will always be changing. Initially I have used a goo
   - Attempting minimum code writing - ideally just able to run `.body` every time a publisher publishes a value
   - `extension AnyPublisher: ObservableObject where Failure: Never` (struct conformance to class protocol error)
 - When trying to use debounce function and using this code: 
-      ```
+```
       let halfSecond = ImmediateScheduler.SchedulerTimeType.Stride.seconds(4)
       .debounce(for: halfSecond, scheduler: ImmediateScheduler.shared)
-      ```
-      getting this exception: `Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)`. TODO: get to the bottom of this, why is this happening? Debugger shows halfSecond.magnitude = 0 ? strange. This ok the docs keep mentioning that in case of `ImmediateScheduler` shit is meaningless.. but `Scheduler` proptocol and implementations seem under documented. 
-      Veery interesting. I was expecting `DispatchQueue` to conform to `Scheduler` protocol, I was just confused by seing it in the `Combine` framework. I though its a different one. So initially I found a function to create time using the `ImmediateScheduler`, which obviously wouldnt work with `DispatchQueue` as the scheduler. Of course just having a closer look at the `debounce` signature `debounce<S>(for dueTime: S.SchedulerTimeType.Stride, scheduler: S, ...` we can see the generic parameter `S`, which in my first attempt was trying to be both `DispatchQueue and ImmediateScheduler`. What I learned - again, instead of just trying a bunch of things we need to look at what the compiler tells us! By the way, what does it tell us? Lets find out! This is the compilation error: `Cannot invoke 'debounce' with an argument list of type '(for: ImmediateScheduler.SchedulerTimeType.Stride, scheduler: DispatchQueue)'` . I personally think it sucks. It basically juse says that something is wrong with the type of the parameters. What is interresting on what stage of the type inference does it break and if xcode just dummed down the error description provided to the end user.
+```
+
+  getting this exception: `Thread 1: EXC_BAD_INSTRUCTION (code=EXC_I386_INVOP, subcode=0x0)`. TODO: get to the bottom of this, why is this happening? Debugger shows halfSecond.magnitude = 0 ? strange. This ok the docs keep mentioning that in case of `ImmediateScheduler` shit is meaningless.. but `Scheduler` proptocol and implementations seem under documented. 
+  Veery interesting. I was expecting `DispatchQueue` to conform to `Scheduler` protocol, I was just confused by seing it in the `Combine` framework. I though its a different one. So initially I found a function to create time using the `ImmediateScheduler`, which obviously wouldnt work with `DispatchQueue` as the scheduler. Of course just having a closer look at the `debounce` signature `debounce<S>(for dueTime: S.SchedulerTimeType.Stride, scheduler: S, ...` we can see the generic parameter `S`, which in my first attempt was trying to be both `DispatchQueue and ImmediateScheduler`. What I learned - again, instead of just trying a bunch of things we need to look at what the compiler tells us! By the way, what does it tell us? Lets find out! This is the compilation error: `Cannot invoke 'debounce' with an argument list of type '(for: ImmediateScheduler.SchedulerTimeType.Stride, scheduler: DispatchQueue)'` . I personally think it sucks. It basically juse says that something is wrong with the type of the parameters. What is interresting on what stage of the type inference does it break and if xcode just dummed down the error description provided to the end user.
 - Tryied starting out simle again
 
 ```
@@ -128,3 +138,52 @@ error: Escaping closure captures mutating 'self' parameter
 ```
 
 Need to figure out the exact limitations on structs so I avoid the approach of just "pocking" around. For now will go with what I already know which is create a sublcass of `ObservableObject` like for show search screen.
+
+
+- SwiftUI preview has failed me! :)) The project compiles just fine for running on the device, but when I try to do a preview I get this errors: 
+
+```
+'Data' is ambiguous for type lookup in this context
+
+----------------------------------------
+
+BuildError: Failed to build UI.swift
+
+Compiling failed: 'Data' is ambiguous for type lookup in this context
+
+failedToBuildDylib: /Users/Kostas/Desktop/kirill/RayaChallange/RayaChallange/UI.swift:80:35: error: 'Data' is ambiguous for type lookup in this context
+                        (episode: Data.Episode) in
+                                  ^~~~
+<unknown>:0: note: found this candidate
+Foundation.Data:1:15: note: found this candidate
+public struct Data : ReferenceConvertible, Equatable, Hashable, RandomAccessCollection, MutableCollection, RangeReplaceableCollection, MutableDataProtocol, ContiguousBytes {
+              ^
+/Users/Kostas/Desktop/kirill/RayaChallange/RayaChallange/UI.swift:79:30: error: 'Data' is ambiguous for type lookup in this context
+                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons.seasons[index], id: \.id) {
+                             ^~~~
+<unknown>:0: note: found this candidate
+Foundation.Data:1:15: note: found this candidate
+public struct Data : ReferenceConvertible, Equatable, Hashable, RandomAccessCollection, MutableCollection, RangeReplaceableCollection, MutableDataProtocol, ContiguousBytes {
+              ^
+```
+
+- Well this test saved me some time. I have assumed string encoding out of the `value` getter :). Nope
+```
+func testURLQueryItemValueWorksAsExpected() {
+    XCTAssertEqual(
+        URLQueryItem.init(name: "q", value: "Model Squad")
+        , "q=Model+Squad"
+    )
+}
+
+-- error
+XCTAssertEqual failed: ("Optional("Model Squad")") is not equal to ("Optional("q=Model+Squad")")
+```
+
+- While fixing the bug with all episodes being loaded for each show that appears on the search this happened:
+
+```
+ForEach<Range<Int>, Int, Section<Text, ForEach<Array<Episode>, Int, EpisodeRowView>, EmptyView>> count (6) != its initial count (0). `ForEach(_:content:)` should only be used for *constant* data. Instead conform data to `Identifiable` or use `ForEach(_:id:content:)` and provide an explicit `id`!
+```
+
+This error didn't show itself before because the episodes would be loaded before the user even went to the show detail screen. So the view wasnt getting rendered (even tho the data was still loading asynchronously). Will fix as suggested by using a keypath to season number to identify elements

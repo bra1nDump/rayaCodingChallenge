@@ -1,7 +1,7 @@
 import Foundation
 
 enum MockData {
-    static let searchShowsSample = try! JSONDecoder().decode(Data.SearchShows.self, from: searchShowsSampleJsonData)
+    static let searchShowsSample = try! JSONDecoder().decode(Model.ShowSearchMatches.self, from: searchShowsSampleJsonData)
     static let searchShowsSampleJsonData =
     """
     [
@@ -122,7 +122,7 @@ enum MockData {
     ]
     """.data(using: .utf8)!
 
-    static let episodesSample = try! JSONDecoder().decode(Data.Episodes.self, from: episodesSampleJsonData)
+    static let episodesSample = try! JSONDecoder().decode(Model.Episodes.self, from: episodesSampleJsonData)
     static let episodesSampleJsonData = #"""
     [
       {

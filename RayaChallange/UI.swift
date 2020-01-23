@@ -4,7 +4,7 @@ import Combine
 // MARK: Shows
 class ShowsSearch: ObservableObject {
     @Published var query = ""
-    @Published var searchShows = Data.SearchShows()
+    @Published var searchShows = Model.ShowSearchMatches()
     
     var cancelQuery: AnyCancellable?
     var cancelSeachShows: AnyCancellable?
@@ -42,7 +42,7 @@ struct SearchShowsView: View {
 }
 
 struct ShowRowView: View {
-    let show: Data.SearchShow
+    let show: Model.ShowSearchMatch
     
     var body: some View {
         NavigationLink(show.show.name, destination: SeasonsView(showId: show.show.id))
@@ -51,10 +51,15 @@ struct ShowRowView: View {
 
 // MARK: Seasons
 class Seasons: ObservableObject {
-    @Published var seasons: [Data.Episodes] = []
+    @Published var seasons: [Model.Episodes] = []
+    private var showId: Int
     private var cancelEpisodesTask: AnyCancellable?
     
     init(showId: Int) {
+        self.showId = showId
+    }
+    
+    func load() {
         cancelEpisodesTask =
             TvMaze
             .episodes(showId: showId)
@@ -66,7 +71,7 @@ class Seasons: ObservableObject {
 
 struct SeasonsView: View {
     @ObservedObject var seasons: Seasons
-    @State var presentedEpisode: Data.Episode?
+    @State var presentedEpisode: Model.Episode?
     
     init(showId: Int) {
         seasons = Seasons(showId: showId)
@@ -74,10 +79,10 @@ struct SeasonsView: View {
     
     var body: some View {
         List {
-            ForEach.init((0..<seasons.seasons.count)) { (index: Int) in
-                Section(header: Text("\(self.seasons.seasons[index].first!.season)")) {
-                    ForEach<[Data.Episode], Int, EpisodeRowView>(self.seasons.seasons[index], id: \.id) {
-                        (episode: Data.Episode) in
+            ForEach.init(seasons.seasons, id: \.first?.season) { (episodes: Model.Episodes) in
+                Section(header: Text("\(episodes.first!.season)")) {
+                    ForEach<[Model.Episode], Int, EpisodeRowView>(episodes, id: \.id) {
+                        (episode: Model.Episode) in
                         EpisodeRowView(episode: episode) {
                             self.presentedEpisode = episode
                         }
@@ -85,16 +90,17 @@ struct SeasonsView: View {
                 }
             }
         }
+        .onAppear(perform: seasons.load)
         .popover(item: $presentedEpisode, content: EpisodeView.init)
     }
 }
 
 struct EpisodeRowView: View {
-    let episode: Data.Episode
+    let episode: Model.Episode
     let onSelect: () -> Void
     
     var body: some View {
-        HStack {
+        HStack(alignment: .top) {
             UrlImage(url: episode.image.medium)
                 .frame(width: 50, height: 50)
                 .clipped()
@@ -110,7 +116,7 @@ struct EpisodeRowView: View {
 
 // MARK: Episode
 struct EpisodeView: View {
-    let episode: Data.Episode
+    let episode: Model.Episode
     
     var body: some View {
         VStack {
