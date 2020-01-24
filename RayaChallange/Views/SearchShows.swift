@@ -36,14 +36,32 @@ struct SearchShowsView: View {
     
     var search: some View {
         VStack {
-            HStack {
-                TextField.init("Search", text: $searchShows.query)
-                Button.init("Clear", action: {
-                    self.searchShows.query = ""
-                })
-            }
-            
+            searchBar
             List.init(searchShows.searchShows, id: \.show.id, rowContent: show)
+        }
+    }
+    
+    var searchBar: some View {
+        HStack {
+            Image("Search")
+                .resizable()
+                .frame(width: 20, height: 20)
+                .padding(10)
+            
+            TextField("Search", text: $searchShows.query)
+                .padding(5)
+                .overlay(
+                    RoundedRectangle(cornerRadius: 4)
+                    .stroke(Color.gray, lineWidth: 1)
+                )
+                .padding(5)
+            
+            if searchShows.query != "" {
+                Button.init("Clear") {
+                    self.searchShows.query = ""
+                }
+                .padding(10)
+            }
         }
     }
     

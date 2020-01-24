@@ -50,10 +50,17 @@ struct SeasonsView: View {
             UrlImage(url: episode.image.medium)
                 .frame(width: 100, height: 100)
             
-            VStack(alignment: .leading, spacing: 5) {
-                Text(episode.name).font(.headline)
-                Text("Episode \(episode.number)").font(.subheadline)
-                Text(episode.summary.dropOuterHtmlTag("p"))
+            HStack {
+                VStack(alignment: .leading, spacing: 5) {
+                    Text(episode.name).font(.headline)
+                    Text("Episode \(episode.number)").font(.subheadline)
+                    Text(episode.summary.dropOuterHtmlTag("p"))
+                }
+                
+                Image("NavigationLinkArrow")
+                    .resizable()
+                    .scaledToFit()
+                    .frame(width: 15)
             }
         }
         .onTapGesture {

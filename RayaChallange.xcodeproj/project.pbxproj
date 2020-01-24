@@ -22,6 +22,7 @@
 		2E73349523D4522000728CEC /* RayaChallangeTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349423D4522000728CEC /* RayaChallangeTests.swift */; };
 		2E7334A023D4522000728CEC /* RayaChallangeUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */; };
 		2E7334B323D53AE000728CEC /* TvMazeSamples.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2E7334B223D53AE000728CEC /* TvMazeSamples.swift */; };
+		2EB70B4B23DAAF9B004D3741 /* RayaChallengeSpec in Resources */ = {isa = PBXBuildFile; fileRef = 2EB70B4A23DAAF9B004D3741 /* RayaChallengeSpec */; };
 		2EEA3BCC23D656AB00EA2593 /* TvMaze.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2EEA3BCB23D656AA00EA2593 /* TvMaze.swift */; };
 /* End PBXBuildFile section */
 
@@ -64,6 +65,7 @@
 		2E73349F23D4522000728CEC /* RayaChallangeUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RayaChallangeUITests.swift; sourceTree = "<group>"; };
 		2E7334A123D4522000728CEC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		2E7334B223D53AE000728CEC /* TvMazeSamples.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvMazeSamples.swift; sourceTree = "<group>"; };
+		2EB70B4A23DAAF9B004D3741 /* RayaChallengeSpec */ = {isa = PBXFileReference; lastKnownFileType = folder; path = RayaChallengeSpec; sourceTree = "<group>"; };
 		2EEA3BCA23D55B2000EA2593 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		2EEA3BCB23D656AA00EA2593 /* TvMaze.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TvMaze.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -137,6 +139,7 @@
 			isa = PBXGroup;
 			children = (
 				2EEA3BCA23D55B2000EA2593 /* README.md */,
+				2EB70B4A23DAAF9B004D3741 /* RayaChallengeSpec */,
 				2E73347C23D4521C00728CEC /* RayaChallange */,
 				2E73349323D4522000728CEC /* RayaChallangeTests */,
 				2E73349E23D4522000728CEC /* RayaChallangeUITests */,
@@ -306,6 +309,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				2EB70B4B23DAAF9B004D3741 /* RayaChallengeSpec in Resources */,
 				2E73348A23D4522000728CEC /* LaunchScreen.storyboard in Resources */,
 				2E73348723D4522000728CEC /* Preview Assets.xcassets in Resources */,
 				2E73348423D4522000728CEC /* Assets.xcassets in Resources */,

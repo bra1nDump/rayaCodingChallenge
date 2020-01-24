@@ -3,12 +3,12 @@ import XCTest
 
 class RayaChallangeTests: XCTestCase {
     func testSearchShowsParsing() {
-        let searchShows = try! JSONDecoder().decode(Model.ShowSearchMatches.self, from: Mock.searchShowsSampleJsonData)
+        let searchShows = try! JSONDecoder().decode(TvMaze.ShowSearchMatches.self, from: TvMazeSamples.searchShowsData)
         XCTAssert(searchShows.first!.show.id == 139)
     }
     
     func testEpisodesParsing() {
-        let episodes = try! JSONDecoder().decode(Model.Episodes.self, from: Mock.episodesSampleJsonData)
+        let episodes = try! JSONDecoder().decode(TvMaze.Episodes.self, from: TvMazeSamples.episodesData)
         XCTAssert(episodes.first!.id == 1)
     }
     

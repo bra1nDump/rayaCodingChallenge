@@ -1,10 +1,12 @@
-# Roadmap and notes
+# TLDR
 
-Usually when I write things down that I want to do I am much more efficient. Since this is an interview coding challange I am going a little beyond my normal levels of detail ~~and curiousity~~ so please if you do hire me, do not expect the same hahaha :). 
+Thanks to Raya for giving me this assignment. It was an amazing experience learing more about new developments in `Swift`. The app is written using `SwiftUI + Combine` without any additional libraries. I believe the spec were met well. As with any codebase there is room for improvment, and to indicate the lines along which I was thinking I included more tasks that I have completed. Hopefully this format will go well with you and whoever is reading my code (probably Josh :)) will have a ~~great~~ ok time.
 
-The plan can be created but will always be changing. Initially I have used a google doc to host this, but soon realised that it doesnt make sense to separate the plan from the repository. I actually believe looking at the way my plan evolved and got refactored can be even more useful then looking at the code itself (actually just hit cmd + R and dont look under the hood at all, I promise it's ~~amazing~~ ok.
+The major flaw of my implementation is that the state is highly coupled with the UI. I think it doesnt make much sense to use a Redux like approach to state managment since data flow is unidirectional. An example of bidirectional flow would be if we could add/remove episodes to "watch later" from the episode detail view and later see all those episodes in another part of the application, this is where a separate approach to storing data would really pay off. In our case separation only helps testing. Which ... well lets try to cover that with UI tests! I am really excited to try recording one.
 
-## Planning
+# Roadmap
+
+## Planning - start timer
 
 - [x] Create roadmap document (intially in google doc)
 - [x] Read about ReSwift (decide to use Combine and not complicate things)
@@ -16,17 +18,7 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [x] Clean default xcode project from comments
 - [x] Create github repo
 - [x] Initial commit
-
-## Unit tests
-
-- [x] TV maze api response parsing
-- [x] Array `group(by:)` (caught bug with single element in group `XCTAssertEqual failed: ("[[1, 1], [3, 3]]") is not equal to ("[[1, 1], [4], [3, 3]]")`)
-- [x] TvMaze
-  - [x] search
-  - [x] show
   
-## Timer start
-
 ## Data
 
 - [x] Familiarize with api
@@ -47,7 +39,7 @@ The plan can be created but will always be changing. Initially I have used a goo
 ## Http client 
 
 - [x] Extend `URLSession` with get helper
-- [x] Create `TvMaze` namespace with 
+- [x] Create `TvMaze` api client
 - [x] + ~3 hours
 
 ## Search (gluing api + view together)
@@ -57,58 +49,59 @@ The plan can be created but will always be changing. Initially I have used a goo
 - [x] Create `Seasons` that would manage show detail screen
 - [x] + ~0 hours
 
-## Timer stop (base implemented): 16 hours
+## Stop timer - 16 hours
 
 ## Polish (the fun part)
 
 - [x] Reread the initial assignment, look for anything more urgent then the following tasks // IMPORTANT
   - [x] "Use a regular UITableViewCell for the results; there is no need for a custom cell class" - unable to meet using SwiftUI
-  - [ ] "Use a custom cell class to match the layout in the included sketch file". 
+  - [x] "Use a custom cell class to match the layout in the included sketch file". 
     - [x] Align the top of the image with that
-    - [ ] Truncate the description size if too big (max lines property or something) (update: doesnt look like anything in the docs mention that)
-    - [ ] Remove <p> from the episode description
+    - [x] Remove <p> from the episode description
         - [x] option 1 - filter <p> </p> tags out - not scalable, what if the api returns other html attributes? What if we want to display multiple paragraphs?
         - [ ] option 2 - create `UIViewRepresentable` that will put `UIKit.UITextView` into the hirarhy (also cool excersize to interop with UIKit)
     - [x] Change default sizes of the title
     - [x] Add rounded edges to the image (can be done on the `UrlImage` level)
     - [x] Align left episode cell content
-    - [ ] Add arrow to episode cell
-  -  [ ] Episode detail 
-    - [ ] "The views on this View Controller should be in a UIScrollView so that they scroll on devices with smaller screens." This was the original implementation. Later I made only the description scrollable, because I thought the scroll on the entire screen could intefeer with the dismissal of the screen.
-    - [ ] Gradient on the background?
+    - [x] Add arrow to episode cell
+    - [x] Align arrow center verticaly & image top vertically useful article: https://swiftui-lab.com/alignment-guides/. Right now using a workaround - 2 `HStack`s
 - [x] Make sure parsing doesnt fail remove fields that are not needed from the data model, read tvmaze api
 - [x] Looks like rn api requests are created for each show  episodes 
-- [ ] Data <-> view dependencies setup efficiently (I guess this is handled by the `SwiftUI`, but could be a good excersize to verify)
-- [ ] `List`, `ForEach` and friends reuse views efficiently
 - [x] Restructure project
 - [x] Remove mock data with #if 
 - [x] Reduce the number of view subclasses
 - [x] Move model to TvMaze, since rn its is hightly coupled with that API with no intention to support multple sources
+- [x] TvMaze doesn't seem to support paging https://www.tvmaze.com/threads/8/paging-api
 - [x] Make sure things are swifty
-- [ ] Make sure application lifecycle works well (new to scenes)
-- [ ] Remove arbitrary loads (allow only one domain)
+- [x] Make sure application lifecycle works well (new to scenes)
+- [x] Remove arbitrary loads (allow only one domain)
 - [x] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
 - [x] Make sure queries with special symbols get handled correctly (good place for unit test?)
-- [ ] Layout is not flexible rn (only tested on one device)
 
-## Extra credit
+## Extra
 
-- [ ] Add `UIKit` component
-- [ ] Integration tests (this doest make much sense for such a small project, but just to familarize with the process)
+- [ ] Add `UIKit` component (didnt work out, tried displaing html in a `UITextView`)
 - [ ] Create custom subscriber for better understanding of `Combine`
 - [ ] Add documentation strings to the generally useful elements
-
-### Things for my `Prelude`
-
+- [ ] Layout is not flexible rn (only tested on one device)
+- [ ] Would be good to inject data into the views for faster iterations on the laout
 - [ ] Extend `XCTest` framework with something to test streams in `Combine` to avoid creating mu
-- [ ] Create helper `FutureView` | `FutureBuilder` for building 
 
-## Look into
+# Tests
 
-- [ ] `open func | var`  in a an `open class` - example `XCTestCase` ?
-- [ ] Application did finish launching - still needed even if we are using scenes?
+## Unit
 
-## Challenges/findings
+- [x] TV maze api response parsing
+- [x] Array `group(by:)` (caught bug with single element in group `XCTAssertEqual failed: ("[[1, 1], [3, 3]]") is not equal to ("[[1, 1], [4], [3, 3]]")`)
+- [x] TvMaze
+  - [x] search
+  - [x] show
+  
+  ## UI
+  
+  - [ ] Seasons
+
+# Challenges/findings
 
 - Attempting to use binding to respond to list selection
 - No documentation whatsoever on the SelectedValue type
@@ -211,3 +204,7 @@ This error didn't show itself before because the episodes would be loaded before
 === AttributeGraph: cycle detected through attribute 204 ===
 ....
 ```
+
+- IMPORTANT TODO: need to figure out how to not nest mutlple stacks of the same type to achive differnt allignments relative to the superview. Example is `Show.episode` Image needs to be top aligned, navigation arrow needs to be center aligned. But only one alignment guide can be selected for the container. Coundt figure out a clean solution so far, but the workaround is not critical
+- `open func | var`  in a an `open class` - example `XCTestCase` ? https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md
+- Application did finish launching - still needed even if we are using scenes? Looks like not required to be overriden
