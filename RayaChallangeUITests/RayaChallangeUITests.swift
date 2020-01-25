@@ -1,18 +1,84 @@
 import XCTest
 
 class RayaChallangeUITests: XCTestCase {
-
-    func testExample() {
+    func testSearchShows() {
         let app = XCUIApplication()
         app.launch()
+        
+        let searchTextField = app.textFields["Search"]
+        searchTextField.tap()
+        searchTextField.typeText("Girls")
+        sleep(3)
     }
-
-    func testLaunchPerformance() {
-        if #available(macOS 10.15, iOS 13.0, tvOS 13.0, *) {
-            // This measures how long it takes to launch your application.
-            measure(metrics: [XCTOSSignpostMetric.applicationLaunch]) {
-                XCUIApplication().launch()
-            }
-        }
+    
+    func testClearSearchBar() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let searchTextField = app.textFields["Search"]
+        searchTextField.tap()
+        searchTextField.typeText("Girls")
+        
+        app.buttons["Clear"].tap()
+        XCTAssertEqual(app.textFields["Search"].firstMatch.title, "")
+    }
+    
+    func testNavigateToEpisode() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let searchTextField = app.textFields["Search"]
+        searchTextField.tap()
+        searchTextField.typeText("Girls")
+        sleep(3)
+        
+        let tablesQuery = app.tables
+        tablesQuery/*@START_MENU_TOKEN@*/.buttons["Girls"]/*[[".cells.buttons[\"Girls\"]",".buttons[\"Girls\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        sleep(3)
+        
+        tablesQuery.staticTexts["Episode 1"].firstMatch.tap()
+    }
+    
+    func testCanDismissEpisode() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let searchTextField = app.textFields["Search"]
+        searchTextField.tap()
+        searchTextField.typeText("Girls")
+        sleep(3)
+        
+        let tablesQuery = app.tables
+        tablesQuery/*@START_MENU_TOKEN@*/.buttons["Girls"]/*[[".cells.buttons[\"Girls\"]",".buttons[\"Girls\"]"],[[[-1,1],[-1,0]]],[0]]@END_MENU_TOKEN@*/.tap()
+        sleep(3)
+        
+        tablesQuery.staticTexts["Episode 1"].firstMatch.tap()
+        sleep(3)
+        
+        XCTAssert(!app.popovers.allElementsBoundByIndex.isEmpty)
+        
+        // this should dismiss the detail view
+        app.images.firstMatch.swipeDown()
+        sleep(3)
+        
+        // verify that popover is dismissed
+        XCTAssert(app.popovers.allElementsBoundByIndex.isEmpty)
+    }
+    
+    func testNavigateBackToSearch() {
+        let app = XCUIApplication()
+        app.launch()
+        
+        let searchTextField = app.textFields["Search"]
+        searchTextField.tap()
+        searchTextField.typeText("Girls")
+        sleep(3)
+        
+        let tablesQuery = app.tables
+        tablesQuery.buttons["Girls"].tap()
+        
+        app.navigationBars.buttons["Show Search"].tap()
+        
+        XCTAssert(app.staticTexts["Show Search"].firstMatch.exists)
     }
 }

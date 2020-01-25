@@ -49,6 +49,7 @@ struct SearchShowsView: View {
                 .padding(10)
             
             TextField("Search", text: $searchShows.query)
+                .accessibility(identifier: "Search")
                 .padding(5)
                 .overlay(
                     RoundedRectangle(cornerRadius: 4)

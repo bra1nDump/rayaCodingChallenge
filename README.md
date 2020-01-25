@@ -77,6 +77,7 @@ The major flaw of my implementation is that the state is highly coupled with the
 - [x] Remove arbitrary loads (allow only one domain)
 - [x] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
 - [x] Make sure queries with special symbols get handled correctly (good place for unit test?)
+- [ ] Make sure final submission works by cloning and running a fresh project
 
 ## Extra
 
@@ -84,8 +85,8 @@ The major flaw of my implementation is that the state is highly coupled with the
 - [ ] Create custom subscriber for better understanding of `Combine`
 - [ ] Add documentation strings to the generally useful elements
 - [ ] Layout is not flexible rn (only tested on one device)
-- [ ] Would be good to inject data into the views for faster iterations on the laout
-- [ ] Extend `XCTest` framework with something to test streams in `Combine` to avoid creating mu
+- [ ] Extend `XCTest` framework with something to test streams in `Combine` to avoid creating expectations
+- [ ] Factor out state managment
 
 # Tests
 
@@ -97,9 +98,13 @@ The major flaw of my implementation is that the state is highly coupled with the
   - [x] search
   - [x] show
   
-  ## UI
-  
-  - [ ] Seasons
+## UI
+
+- [x] Can search
+- [x] Can clear search
+- [x] Can navigate to episode
+- [ ] Can navigate back from episode (something fishy is going on here ...)
+- [x] Can navigate back from show detail
 
 # Challenges/findings
 
@@ -208,3 +213,5 @@ This error didn't show itself before because the episodes would be loaded before
 - IMPORTANT TODO: need to figure out how to not nest mutlple stacks of the same type to achive differnt allignments relative to the superview. Example is `Show.episode` Image needs to be top aligned, navigation arrow needs to be center aligned. But only one alignment guide can be selected for the container. Coundt figure out a clean solution so far, but the workaround is not critical
 - `open func | var`  in a an `open class` - example `XCTestCase` ? https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md
 - Application did finish launching - still needed even if we are using scenes? Looks like not required to be overriden
+
+- Really strugning to dimiss the popover. Looking on the web and finding similar problems reported https://github.com/feedback-assistant/reports/issues/50. Doesn't look like this is required by the spec tho.

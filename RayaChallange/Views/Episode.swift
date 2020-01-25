@@ -3,7 +3,7 @@ import Combine
 
 struct EpisodeView: View {
     let episode: TvMaze.Episode
-    
+
     var body: some View {
         VStack(spacing: 10) {
             UrlImage(url: episode.image.original)
@@ -28,11 +28,7 @@ struct EpisodeView: View {
 #if DEBUG
 struct EpisodeView_Previews: PreviewProvider {
     static var previews: some View {
-        Group {
-            SearchShowsView()
-            SeasonsView(show: TvMazeSamples.searchShows.first!.show)
-            EpisodeView(episode: TvMazeSamples.episodes.first!)
-        }
+        EpisodeView(episode: TvMazeSamples.episodes.first!)
     }
 }
 #endif

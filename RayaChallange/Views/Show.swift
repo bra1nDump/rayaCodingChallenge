@@ -36,7 +36,9 @@ struct SeasonsView: View {
         }
         .navigationBarTitle(showName)
         .onAppear(perform: seasons.load)
-        .popover(item: $presentedEpisode, content: EpisodeView.init)
+        .popover(item: $presentedEpisode) { (episode) in
+            EpisodeView(episode: episode)
+        }
     }
     
     func season(episodes: TvMaze.Episodes) -> some View {
