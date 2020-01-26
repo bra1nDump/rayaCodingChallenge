@@ -1,7 +1,7 @@
 import SwiftUI
 import Combine
 
-class ShowsSearch: ObservableObject {
+class SearchShows: ObservableObject {
     @Published var query = ""
     @Published var searchShows = TvMaze.ShowSearchMatches()
     
@@ -25,12 +25,19 @@ class ShowsSearch: ObservableObject {
 }
 
 struct SearchShowsView: View {
-    @ObservedObject var searchShows = ShowsSearch()
+    @ObservedObject var searchShows = SearchShows()
+    @State var lol = true
     
     var body: some View {
         NavigationView {
             search
             .navigationBarTitle("Show Search")
+            
+            search
+            .navigationBarTitle("Show Search")
+        }
+        .popover(isPresented: $lol) {
+            Text("LOL")
         }
     }
     

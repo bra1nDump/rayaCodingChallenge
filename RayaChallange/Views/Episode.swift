@@ -6,6 +6,9 @@ struct EpisodeView: View {
 
     var body: some View {
         VStack(spacing: 10) {
+            Button("Close") {
+                UIApplication.shared.rootViewController?.dismiss(animated: true, completion: nil)
+            }
             UrlImage(url: episode.image.original)
                 .padding()
             Text("Season \(episode.season) Episode \(episode.number)")

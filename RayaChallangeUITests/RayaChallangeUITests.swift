@@ -55,14 +55,9 @@ class RayaChallangeUITests: XCTestCase {
         tablesQuery.staticTexts["Episode 1"].firstMatch.tap()
         sleep(3)
         
-        XCTAssert(!app.popovers.allElementsBoundByIndex.isEmpty)
-        
         // this should dismiss the detail view
-        app.images.firstMatch.swipeDown()
+        app.buttons["Close"].tap()
         sleep(3)
-        
-        // verify that popover is dismissed
-        XCTAssert(app.popovers.allElementsBoundByIndex.isEmpty)
     }
     
     func testNavigateBackToSearch() {

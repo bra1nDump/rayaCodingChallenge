@@ -66,7 +66,8 @@ struct SeasonsView: View {
             }
         }
         .onTapGesture {
-            self.presentedEpisode = episode
+            let rootViewController = UIApplication.shared.rootViewController
+            rootViewController?.present(UIHostingController(rootView: EpisodeView(episode: episode)), animated: true)
         }
     }
 }

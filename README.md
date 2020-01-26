@@ -4,6 +4,8 @@ Thanks to Raya for giving me this assignment. It was an amazing experience leari
 
 The major flaw of my implementation is that the state is highly coupled with the UI. I think it doesnt make much sense to use a Redux like approach to state managment since data flow is unidirectional. An example of bidirectional flow would be if we could add/remove episodes to "watch later" from the episode detail view and later see all those episodes in another part of the application, this is where a separate approach to storing data would really pay off. In our case separation only helps testing. Which ... well lets try to cover that with UI tests! I am really excited to try recording one.
 
+Overview of `SwiftUI` - very raw at the moment. I believe I have identified a bug with popovers, I will try to reproduce it and submitt an issue to apple. Overall the ammount of documentation in the official docs is very limited. Because the source is closed it is hard to figure out some of the problems. But there are plenty of articles that cover the things that aren't covered in the official docs. This branch contains a hack to just use an older way of presenting a view controller housing the episode SwiftUI view on top of the root view controller (containgin show search + show detail)
+
 # Roadmap
 
 ## Planning - start timer
@@ -213,5 +215,5 @@ This error didn't show itself before because the episodes would be loaded before
 - IMPORTANT TODO: need to figure out how to not nest mutlple stacks of the same type to achive differnt allignments relative to the superview. Example is `Show.episode` Image needs to be top aligned, navigation arrow needs to be center aligned. But only one alignment guide can be selected for the container. Coundt figure out a clean solution so far, but the workaround is not critical
 - `open func | var`  in a an `open class` - example `XCTestCase` ? https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md
 - Application did finish launching - still needed even if we are using scenes? Looks like not required to be overriden
-
 - Really strugning to dimiss the popover. Looking on the web and finding similar problems reported https://github.com/feedback-assistant/reports/issues/50. Doesn't look like this is required by the spec tho.
+
