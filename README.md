@@ -79,7 +79,8 @@ Overview of `SwiftUI` - very raw at the moment. I believe I have identified a bu
 - [x] Remove arbitrary loads (allow only one domain)
 - [x] Watch out for force unwraping (in http client `URL` creation it would be ok, but in `URLSession` extension this is bad, since this no guarantees on string url passed)
 - [x] Make sure queries with special symbols get handled correctly (good place for unit test?)
-- [ ] Make sure final submission works by cloning and running a fresh project
+- [x] Make sure final submission works by cloning and running a fresh project
+- [ ] Try moving popever outside of navigation view. If that was the problem that it really sucks that the framework doesnt throw an error when one attempts to use a popover from a subview of `NavigationView`
 
 ## Extra
 
@@ -105,8 +106,8 @@ Overview of `SwiftUI` - very raw at the moment. I believe I have identified a bu
 - [x] Can search
 - [x] Can clear search
 - [x] Can navigate to episode
-- [ ] Can navigate back from episode (something fishy is going on here ...)
-- [x] Can navigate back from show detail
+- [x] Can dismiss episode
+- [x] Can return to show search
 
 # Challenges/findings
 
@@ -216,4 +217,3 @@ This error didn't show itself before because the episodes would be loaded before
 - `open func | var`  in a an `open class` - example `XCTestCase` ? https://github.com/apple/swift-evolution/blob/master/proposals/0117-non-public-subclassable-by-default.md
 - Application did finish launching - still needed even if we are using scenes? Looks like not required to be overriden
 - Really strugning to dimiss the popover. Looking on the web and finding similar problems reported https://github.com/feedback-assistant/reports/issues/50. Doesn't look like this is required by the spec tho.
-
